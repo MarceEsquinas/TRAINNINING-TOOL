@@ -106,7 +106,7 @@ sesion_entrenamiento + feedback_semanal
 - ENUM types
 - Tablas con constraints
 - Triggers para `updated_at`
-- Vistas útiles
+- Vistas útile
 - Comentarios en cada columna
 
 **Uso**:
