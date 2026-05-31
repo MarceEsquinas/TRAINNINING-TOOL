@@ -145,24 +145,26 @@ CREATE INDEX idx_semana_fechas ON semana_entrenamiento(fecha_inicio, fecha_fin);
 CREATE TABLE sesion_entrenamiento (
     id SERIAL PRIMARY KEY,
     semana_id INTEGER NOT NULL,
-    fecha DATE NOT NULL,
+    orden SMALLINT NOT NULL DEFAULT 1,
     descripcion TEXT NOT NULL,
     kilometros_planificados NUMERIC(5, 2),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     
     CONSTRAINT fk_semana FOREIGN KEY (semana_id)
-        REFERENCES semana_entrenamiento(id) ON DELETE CASCADE
+        REFERENCES semana_entrenamiento(id) ON DELETE CASCADE,
+    CONSTRAINT orden_positiva CHECK (orden > 0),
+    CONSTRAINT orden_unico_por_semana UNIQUE (semana_id, orden)
 );
 
 COMMENT ON TABLE sesion_entrenamiento IS 'Sesiones de entrenamiento dentro de una semana';
 COMMENT ON COLUMN sesion_entrenamiento.semana_id IS 'FK a semana_entrenamiento (cascade delete)';
-COMMENT ON COLUMN sesion_entrenamiento.fecha IS 'Fecha de la sesión';
+COMMENT ON COLUMN sesion_entrenamiento.orden IS 'Orden de la sesión dentro de la semana; no hay fecha fija para mayor flexibilidad';
 COMMENT ON COLUMN sesion_entrenamiento.descripcion IS 'Descripción libre: "60 min Z2", "12 km suaves", "20 cal + 6x1000 + 10 enfr"';
 COMMENT ON COLUMN sesion_entrenamiento.kilometros_planificados IS 'Km planificados para la sesión';
 
 CREATE INDEX idx_sesion_semana_id ON sesion_entrenamiento(semana_id);
-CREATE INDEX idx_sesion_fecha ON sesion_entrenamiento(fecha);
+CREATE INDEX idx_sesion_semana_orden ON sesion_entrenamiento(semana_id, orden);
 
 -- ====================================================================
 -- TABLA: feedback_semanal

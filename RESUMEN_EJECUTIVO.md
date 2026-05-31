@@ -295,8 +295,8 @@ POST   /api/feedback/:id
 1. **JSONB no es queryable directamente** → Si necesitas filtrar por lesión específica, necesitarás lógica en app
 2. **Sin historial de cambios** → No hay registro de cuándo cambió un objetivo
 3. **Sin soft deletes** → Eliminar es definitivo (OK para atletas, revisar para datos críticos)
-4. **Validación de fechas básica** → Validar que sesión está dentro de su semana en app
-5. **Sin múltiples entrenamientos por día** → Si necesitas eso, agregar `secuencia` en sesión
+4. **Sin fecha fija en la sesión** → La sesión se planifica como orden dentro de la semana; el atleta decide cuándo ejecutarla entre el lunes y el domingo.
+5. **Sin múltiples entrenamientos por día** → Si necesitas eso, usar `orden`/`secuencia` para mantener la secuencia semanal sin anclar fecha.
 
 ---
 

@@ -151,7 +151,7 @@ SELECT
             WHEN ses.id IS NOT NULL THEN 
             json_build_object(
                 'id', ses.id,
-                'fecha', ses.fecha,
+                'orden', ses.orden,
                 'descripcion', ses.descripcion,
                 'kilometros_planificados', ses.kilometros_planificados,
                 'created_at', ses.created_at
@@ -185,23 +185,23 @@ GROUP BY s.id, fb.id, fb.completada, fb.motivo_no_completada,
 SELECT 
     ses.id,
     ses.semana_id,
-    ses.fecha,
+    ses.orden,
     ses.descripcion,
     ses.kilometros_planificados,
     ses.created_at
 FROM sesion_entrenamiento ses
 WHERE ses.semana_id = $1
-ORDER BY ses.fecha ASC;
+ORDER BY ses.orden ASC;
 
 -- 15. Crear sesión de entrenamiento
-INSERT INTO sesion_entrenamiento (semana_id, fecha, descripcion, kilometros_planificados)
+INSERT INTO sesion_entrenamiento (semana_id, orden, descripcion, kilometros_planificados)
 VALUES ($1, $2, $3, $4)
-RETURNING id, semana_id, fecha, descripcion, kilometros_planificados;
+RETURNING id, semana_id, orden, descripcion, kilometros_planificados;
 
 -- 16. Actualizar sesión
 UPDATE sesion_entrenamiento
 SET 
-    fecha = COALESCE($2, fecha),
+    orden = COALESCE($2, orden),
     descripcion = COALESCE($3, descripcion),
     kilometros_planificados = COALESCE($4, kilometros_planificados)
 WHERE id = $1
