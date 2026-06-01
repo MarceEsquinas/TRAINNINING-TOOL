@@ -145,7 +145,7 @@ CREATE INDEX idx_semana_fechas ON semana_entrenamiento(fecha_inicio, fecha_fin);
 CREATE TABLE sesion_entrenamiento (
     id SERIAL PRIMARY KEY,
     semana_id INTEGER NOT NULL,
-    orden SMALLINT NOT NULL DEFAULT 1,
+    orden VARCHAR(50) NOT NULL DEFAULT '1',
     descripcion TEXT NOT NULL,
     kilometros_planificados NUMERIC(5, 2),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -153,7 +153,6 @@ CREATE TABLE sesion_entrenamiento (
     
     CONSTRAINT fk_semana FOREIGN KEY (semana_id)
         REFERENCES semana_entrenamiento(id) ON DELETE CASCADE,
-    CONSTRAINT orden_positiva CHECK (orden > 0),
     CONSTRAINT orden_unico_por_semana UNIQUE (semana_id, orden)
 );
 
