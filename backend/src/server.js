@@ -1,8 +1,16 @@
 import express from 'express';
-import { query } from './db.js';
+import { query } from './config/db.js';
+import testRoute from './routes/testRoute.js';
 
 const app = express();
 const PORT = 3000;
+
+// Middleware para parsear JSON en el cuerpo de las peticiones.
+app.use(express.json());
+
+// Monta las rutas definidas en src/routes.
+// La ruta de prueba quedará accesible en GET /api/test.
+app.use('/api', testRoute);
 
 // Ruta básica existente
 app.get('/', (req, res) => {
