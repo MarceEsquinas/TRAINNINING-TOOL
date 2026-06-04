@@ -1,0 +1,89 @@
+import { query } from '../config/db.js';
+
+// Controlador para listar todos los atletas desde PostgreSQL.
+export async function getAtletas(req, res) {
+  try {
+    // Consulta todos los atletas de la tabla
+    const result = await query('SELECT * FROM atleta ORDER BY id');
+    
+    // Devuelve los atletas con status 200
+    return res.status(200).json({
+      success: true,
+      data: result.rows,
+      count: result.rows.length,
+    });
+  } catch (error) {
+    console.error('Error al obtener atletas:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Error al obtener atletas de la base de datos',
+      error: error.message,
+    });
+  }
+}
+
+// Controlador para crear un nuevo atleta
+export async function postAtletas(req, res) {
+  try {
+    const { nombre, usuario_id, sexo, peso, dias_disponibles, km_medios_ultimos_2_meses, lesiones_ultimo_anio } = req.body;
+
+    // Validación: nombre es requerido
+    if (!nombre || nombre.trim() === '') {
+      return res.status(400).json({
+        success: false,
+        message: 'El nombre del atleta es requerido',
+      });
+    }
+
+    // Validación: peso debe ser positivo si se proporciona
+    if (peso !== undefined && peso !== null && peso <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'El peso debe ser mayor a 0',
+      });
+    }
+
+    // Validación: sexo debe ser M, F o OTRO si se proporciona
+    const sexosValidos = ['M', 'F', 'OTRO'];
+    if (sexo && !sexosValidos.includes(sexo)) {
+      return res.status(400).json({
+        success: false,
+        message: 'El sexo debe ser M, F u OTRO',
+      });
+    }
+
+    // Construcción de la consulta SQL con parámetros
+    const sql = `
+      INSERT INTO atleta 
+      (nombre, usuario_id, sexo, peso, dias_disponibles, km_medios_ultimos_2_meses, lesiones_ultimo_anio)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING *;
+    `;
+
+    const params = [
+      nombre.trim(),
+      usuario_id || null,
+      sexo || null,
+      peso || null,
+      dias_disponibles ? JSON.stringify(dias_disponibles) : '[]',
+      km_medios_ultimos_2_meses || null,
+      lesiones_ultimo_anio ? JSON.stringify(lesiones_ultimo_anio) : '[]',
+    ];
+
+    const result = await query(sql, params);
+
+    // Devuelve el atleta creado con status 201
+    return res.status(201).json({
+      success: true,
+      message: 'Atleta creado exitosamente',
+      data: result.rows[0],
+    });
+  } catch (error) {
+    console.error('Error al crear atleta:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Error al crear atleta en la base de datos',
+      error: error.message,
+    });
+  }
+}

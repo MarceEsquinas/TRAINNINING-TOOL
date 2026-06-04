@@ -1,6 +1,7 @@
 import express from 'express';
 import { query } from './config/db.js';
 import testRoute from './routes/testRoute.js';
+import atletasRoute from './routes/atletasRoute.js';
 
 const app = express();
 const PORT = 3000;
@@ -12,6 +13,9 @@ app.use(express.json());
 // La ruta de prueba quedará accesible en GET /api/test.
 app.use('/api', testRoute);
 
+// Monta la ruta de atletas para que se acceda en GET /atletas.
+app.use('/', atletasRoute);
+ 
 // Ruta básica existente
 app.get('/', (req, res) => {
   res.send('la cosa va bien');
