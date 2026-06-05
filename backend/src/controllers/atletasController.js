@@ -87,3 +87,35 @@ export async function postAtletas(req, res) {
     });
   }
 }
+
+// Controlador para obtener un atleta por su id.
+export async function getAtletaById(req, res) {
+  try {
+    // req.params.id viene de la ruta /atletas/:id
+    const { id } = req.params;
+
+    // Consulta el atleta que tenga el id indicado
+    const result = await query('SELECT * FROM atleta WHERE id = $1', [id]);
+
+    // Si no existe atleta con ese id, devolvemos 404
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: `No se encontró atleta con id ${id}`,
+      });
+    }
+
+    // Si existe, devolvemos el atleta encontrado
+    return res.status(200).json({
+      success: true,
+      data: result.rows[0],
+    });
+  } catch (error) {
+    console.error('Error al obtener atleta por id:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Error al obtener atleta de la base de datos',
+      error: error.message,
+    });
+  }
+}
