@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAtletas, getAtletaById, postAtletas } from '../controllers/atletasController.js';
+import { getAtletas, getAtletaById, updateAtletaById, postAtletas } from '../controllers/atletasController.js';
 
 const router = express.Router();
 
@@ -9,6 +9,10 @@ router.get('/atletas', getAtletas);
 // Ruta para obtener un atleta por su id.
 // Ejemplo: GET /atletas/1
 router.get('/atletas/:id', getAtletaById);
+
+// Ruta para actualizar un atleta por su id.
+// Ejemplo: PUT /atletas/1
+router.put('/atletas/:id', updateAtletaById);
 
 // Ruta para crear un nuevo atleta.
 router.post('/atletas', postAtletas);
