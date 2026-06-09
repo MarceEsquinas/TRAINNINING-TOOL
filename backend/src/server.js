@@ -2,6 +2,7 @@ import express from 'express';
 import { query } from './config/db.js';
 import testRoute from './routes/testRoute.js';
 import atletasRoute from './routes/atletasRoute.js';
+import objetivoRoute from './routes/objetivoRoute.js';
 
 const app = express();
 const PORT = 3000;
@@ -13,9 +14,12 @@ app.use(express.json());
 // La ruta de prueba quedará accesible en GET /api/test.
 app.use('/api', testRoute);
 
-// Monta la ruta de atletas para que se acceda en GET /atletas.
+// Monta la ruta de atletas para que se acceda en /atletas.
 app.use('/', atletasRoute);
- 
+
+// Monta la ruta de objetivos para que se acceda en /objetivos.
+app.use('/', objetivoRoute);
+
 // Ruta básica existente
 app.get('/', (req, res) => {
   res.send('la cosa va bien');

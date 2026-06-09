@@ -187,3 +187,22 @@ export async function updateAtletaById(req, res) {
     return res.status(500).json({ success: false, message: 'Error al actualizar atleta en la base de datos', error: error.message });
   }
 }
+
+// Controlador para borrar un atleta por id.
+export async function deleteAtletaById(req, res) {
+  try {
+    const { id } = req.params;
+
+    // Intentamos borrar el atleta
+    const result = await query('DELETE FROM atleta WHERE id = $1 RETURNING *;', [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: `No se encontró atleta con id ${id}` });
+    }
+
+    return res.status(200).json({ success: true, message: 'Atleta borrado exitosamente', data: result.rows[0] });
+  } catch (error) {
+    console.error('Error al borrar atleta:', error);
+    return res.status(500).json({ success: false, message: 'Error al borrar atleta en la base de datos', error: error.message });
+  }
+}
