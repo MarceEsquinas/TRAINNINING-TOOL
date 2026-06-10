@@ -84,6 +84,11 @@ Puede:
 - SesionEntrenamiento
 - FeedbackSemanal
 
+## Documentación adicional
+
+- `docs/semana_entrenamiento.md`: descripción de la entidad `SemanaEntrenamiento` y la regla futura de automatización de fechas.
+- `docs/sesion_entrenamiento.md`: descripción de la entidad `SesionEntrenamiento` y el comportamiento actual del CRUD.
+
 ---
 
 ## Estado actual

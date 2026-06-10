@@ -3,6 +3,8 @@ import { query } from './config/db.js';
 import testRoute from './routes/testRoute.js';
 import atletasRoute from './routes/atletasRoute.js';
 import objetivoRoute from './routes/objetivoRoute.js';
+import semanaEntrenamientoRoute from './routes/semanaEntrenamientoRoute.js';
+import sesionEntrenamientoRoute from './routes/sesionEntrenamientoRoute.js';
 
 const app = express();
 const PORT = 3000;
@@ -19,6 +21,12 @@ app.use('/', atletasRoute);
 
 // Monta la ruta de objetivos para que se acceda en /objetivos.
 app.use('/', objetivoRoute);
+
+// Monta la ruta de semanas de entrenamiento para que se acceda en /semanasEntrenamiento.
+app.use('/', semanaEntrenamientoRoute);
+
+// Monta la ruta de sesiones de entrenamiento para que se acceda en /sesionesEntrenamiento.
+app.use('/', sesionEntrenamientoRoute);
 
 // Ruta básica existente
 app.get('/', (req, res) => {
