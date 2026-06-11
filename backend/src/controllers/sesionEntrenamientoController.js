@@ -50,7 +50,7 @@ export async function getSesionEntrenamientoById(req, res) {
 // Controlador para crear una nueva sesión de entrenamiento.
 export async function postSesionEntrenamiento(req, res) {
   try {
-    const { semana_id, orden, descripcion, kilometros_planificados } = req.body;
+    const { semana_id, orden, descripcion, kilometros_planificados } = req.body ?? {};
 
     if (!semana_id) {
       return res.status(400).json({
@@ -102,7 +102,7 @@ export async function postSesionEntrenamiento(req, res) {
 export async function updateSesionEntrenamientoById(req, res) {
   try {
     const { id } = req.params;
-    const { semana_id, orden, descripcion, kilometros_planificados } = req.body;
+    const { semana_id, orden, descripcion, kilometros_planificados } = req.body ?? {};
 
     const fields = [];
     const params = [];

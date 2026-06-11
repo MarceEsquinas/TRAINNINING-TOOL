@@ -5,6 +5,7 @@ import atletasRoute from './routes/atletasRoute.js';
 import objetivoRoute from './routes/objetivoRoute.js';
 import semanaEntrenamientoRoute from './routes/semanaEntrenamientoRoute.js';
 import sesionEntrenamientoRoute from './routes/sesionEntrenamientoRoute.js';
+import usuarioRoute from './routes/usuarioRoute.js';
 
 const app = express();
 const PORT = 3000;
@@ -21,6 +22,9 @@ app.use('/', atletasRoute);
 
 // Monta la ruta de objetivos para que se acceda en /objetivos.
 app.use('/', objetivoRoute);
+
+// Monta la ruta de usuarios para que se acceda en /usuarios.
+app.use('/', usuarioRoute);
 
 // Monta la ruta de semanas de entrenamiento para que se acceda en /semanasEntrenamiento.
 app.use('/', semanaEntrenamientoRoute);
