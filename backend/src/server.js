@@ -6,6 +6,7 @@ import objetivoRoute from './routes/objetivoRoute.js';
 import semanaEntrenamientoRoute from './routes/semanaEntrenamientoRoute.js';
 import sesionEntrenamientoRoute from './routes/sesionEntrenamientoRoute.js';
 import usuarioRoute from './routes/usuarioRoute.js';
+import feedbackRoute from './routes/feedbackRoute.js';
 
 const app = express();
 const PORT = 3000;
@@ -31,6 +32,9 @@ app.use('/', semanaEntrenamientoRoute);
 
 // Monta la ruta de sesiones de entrenamiento para que se acceda en /sesionesEntrenamiento.
 app.use('/', sesionEntrenamientoRoute);
+
+// Monta la ruta de feedback para que se acceda en /feedback.
+app.use('/', feedbackRoute);
 
 // Ruta básica existente
 app.get('/', (req, res) => {
